@@ -4,3 +4,4 @@ venv/
 rankings
 ind_nifty50list.csv
 .ipynb_checkpoints/
+chromedriver.exe

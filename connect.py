@@ -54,37 +54,37 @@ print(data)
 with open('access_token.txt', 'w') as file:
         file.write(data["access_token"])
 
-instrument_dump = kite.instruments("NSE")
-instrument_df = pd.DataFrame(instrument_dump)
+# instrument_dump = kite.instruments("NSE")
+# instrument_df = pd.DataFrame(instrument_dump)
 
-def instrumentLookup(instrument_df,symbol):
-    """Looks up instrument token for a given script from instrument dump"""
-    try:
-        return instrument_df[instrument_df.tradingsymbol==symbol].instrument_token.values[0]
-    except:
-        return -1
+# def instrumentLookup(instrument_df,symbol):
+#     """Looks up instrument token for a given script from instrument dump"""
+#     try:
+#         return instrument_df[instrument_df.tradingsymbol==symbol].instrument_token.values[0]
+#     except:
+#         return -1
 
-def fetchOHLCExtended(ticker,inception_date, interval):
-    """extracts historical data and outputs in the form of dataframe
-       inception date string format - dd-mm-yyyy"""
-    instrument = instrumentLookup(instrument_df,ticker)
-    from_date = dt.datetime.strptime(inception_date, '%d-%m-%Y')
-    to_date = dt.date.today()
-    data = pd.DataFrame(columns=['date', 'open', 'high', 'low', 'close', 'volume'])
-    while True:
-        if from_date.date() >= (dt.date.today() - dt.timedelta(100)):
-            data = data.append(pd.DataFrame(kite.historical_data(instrument,from_date,dt.date.today(),interval)),ignore_index=True)
-            break
-        else:
-            to_date = from_date + dt.timedelta(100)
-            data = data.append(pd.DataFrame(kite.historical_data(instrument,from_date,to_date,interval)),ignore_index=True)
-            from_date = to_date
-    data.set_index("date",inplace=True)
-    return data
+# def fetchOHLCExtended(ticker,inception_date, interval):
+#     """extracts historical data and outputs in the form of dataframe
+#        inception date string format - dd-mm-yyyy"""
+#     instrument = instrumentLookup(instrument_df,ticker)
+#     from_date = dt.datetime.strptime(inception_date, '%d-%m-%Y')
+#     to_date = dt.date.today()
+#     data = pd.DataFrame(columns=['date', 'open', 'high', 'low', 'close', 'volume'])
+#     while True:
+#         if from_date.date() >= (dt.date.today() - dt.timedelta(100)):
+#             data = data.append(pd.DataFrame(kite.historical_data(instrument,from_date,dt.date.today(),interval)),ignore_index=True)
+#             break
+#         else:
+#             to_date = from_date + dt.timedelta(100)
+#             data = data.append(pd.DataFrame(kite.historical_data(instrument,from_date,to_date,interval)),ignore_index=True)
+#             from_date = to_date
+#     data.set_index("date",inplace=True)
+#     return data
 
 
-ohlc = fetchOHLCExtended("INFY","01-02-2023","day")
-print(ohlc)
+# ohlc = fetchOHLCExtended("INFY","01-02-2023","day")
+# print(ohlc)
 
 
 
